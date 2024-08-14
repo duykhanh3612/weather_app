@@ -6,7 +6,7 @@ html, body {
 }
 
 body {
-    background-color: #c1d4e7; /* Light sky blue background */
+    background-color: #324e69; /* Light sky blue background */
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
@@ -64,7 +64,7 @@ width: 100%;
 .dashboard-title {
     margin: 20px auto;
     text-align: center;
-    color: black;
+    color: rgb(255, 255, 255);
     margin-bottom: 20px;
     padding: 15px;
     
@@ -86,7 +86,7 @@ width: 100%;
 }
 
 .search-button:hover, .location-button:hover {
-    background-color: #444a59;
+    background-color: #324e69;
 }
 
 .or-divider {
