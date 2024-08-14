@@ -16,43 +16,63 @@ class SubscriptionController extends Controller
         return view('subscribe');
     }
 
-    public function subscribe(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'city' => 'required|string',
-        ]);
-
-        $email = $request->input('email');
-        $city = $request->input('city');
-
-        // Find or create a subscription
-        $subscription = Subscription::firstOrCreate(
-            ['email' => $email],
-            ['city' => $city, 'is_subscribed' => false, 'unsubscribe_token' => Str::random(32)]
-        );
-
-        if ($subscription->is_subscribed) {
-            return back()->with('error', 'Email has already been registered.');
+        public function subscribe(Request $request)
+        {
+            // Validate email and city
+            $request->validate([
+                'email' => 'required|email',
+                'city' => 'required|string',
+            ]);
+    
+            $email = $request->input('email');
+            $city = $request->input('city');
+    
+            // Check if the email is already registered
+            $existingSubscription = Subscription::where('email', $email)->first();
+    
+            if ($existingSubscription) {
+                // If the email already exists and is subscribed
+                if ($existingSubscription->is_subscribed) {
+                    session()->flash('error', 'Email has already been registered.');
+                    return back();
+                }
+    
+                // If the email exists but is not subscribed, generate a new token
+                $token = Str::random(32);
+                $existingSubscription->unsubscribe_token = $token;
+                $existingSubscription->save();
+            } else {
+                // Create a new subscription
+                $token = Str::random(32);
+                $existingSubscription = Subscription::create([
+                    'email' => $email,
+                    'city' => $city,
+                    'is_subscribed' => false,
+                    'unsubscribe_token' => $token
+                ]);
+            }
+    
+            // Generate the verification URL
+            $verifyUrl = URL::temporarySignedRoute(
+                'verify.subscription',
+                now()->addMinutes(60),
+                ['email' => $email, 'token' => $token]
+            );
+    
+            // Dispatch the email sending job to the queue
+            dispatch(function () use ($email, $verifyUrl) {
+                Mail::send('emails.confirmation', ['url' => $verifyUrl], function ($message) use ($email) {
+                    $message->to($email)
+                            ->subject('Confirm your registration.');
+                });
+            });
+    
+            // Save confirmation message into session
+            session()->flash('message', 'Please check your email to confirm registration.');
+    
+            // Redirect back to the form
+            return back();
         }
-
-        // Update token if subscription exists but is not subscribed
-        if (!$subscription->wasRecentlyCreated) {
-            $subscription->update(['unsubscribe_token' => Str::random(32)]);
-        }
-
-        // Generate the verification URL
-        $verifyUrl = URL::temporarySignedRoute(
-            'verify.subscription',
-            now()->addMinutes(60),
-            ['email' => $email, 'token' => $subscription->unsubscribe_token]
-        );
-
-        // Dispatch email job
-        Mail::to($email)->send(new \App\Mail\SubscriptionConfirmation($verifyUrl));
-
-        return back()->with('message', 'Please check your email to confirm registration.');
-    }
 
     public function unsubscribe($token)
     {
