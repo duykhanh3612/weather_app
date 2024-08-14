@@ -13,6 +13,7 @@
             </form>
 
             <button id="location-button" class="location-button">Use Current Location</button>
+            
             <!-- Subscription Form -->
             <div class="subscription-form">
                 <h2>Get Daily Time Forecast</h2>
@@ -30,6 +31,14 @@
                     <p id="error-message" class="error-message">{{ session('error') }}</p>
                 @endif
             </div>
+            <!-- Save and History Buttons -->
+            <div class="weather-controls">
+                    <form method="POST" action="{{ route('weather.storeTemporaryWeather') }}">
+                        @csrf
+                        <button type="submit" class="save-weather-button">Save Current Weather</button>
+                    </form>
+                   <button class="view-history-button" > <a href="{{ route('weather.history') }}" >View Saved Weather History</a></button>
+                </div>
         </div>
         <div class="weather-content">
             @if(isset($error))
@@ -89,6 +98,8 @@
                 @else
                     <p class="error-message">Weather data is not available.</p>
                 @endif
+
+                
             @endif
         </div>
     </div>
@@ -121,8 +132,10 @@
 
         // Use Current Location Button Functionality
         document.getElementById('location-button').addEventListener('click', function() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            console.log('Latitude:', position.coords.latitude);
+            console.log('Longitude:', position.coords.longitude);
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
 

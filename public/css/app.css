@@ -321,3 +321,49 @@ width: 100%;
         width: calc(25% - 20px); /* Four items per row with spacing */
     }
 }
+.save-weather-button, .view-history-button {
+    background-color: #145da5;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.save-weather-button:hover, .view-history-button:hover {
+    background-color: #444a59;
+}
+.view-history-button {
+    background-color: #145da5;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    padding: 10px; /* Adjust padding to match other buttons */
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.view-history-button a {
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    line-height: normal;
+}
+
+.view-history-button:hover {
+    background-color: #444a59;
+}
+
+
+.view-history-button:hover {
+    background-color: #444a59;
+}

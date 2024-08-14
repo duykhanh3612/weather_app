@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Subscription;
@@ -17,7 +18,6 @@ class SubscriptionController extends Controller
 
     public function subscribe(Request $request)
     {
-        // Validate email and city
         $request->validate([
             'email' => 'required|email',
             'city' => 'required|string',
@@ -26,62 +26,40 @@ class SubscriptionController extends Controller
         $email = $request->input('email');
         $city = $request->input('city');
 
-        // Check if the email is already registered
-        $existingSubscription = Subscription::where('email', $email)->first();
+        // Find or create a subscription
+        $subscription = Subscription::firstOrCreate(
+            ['email' => $email],
+            ['city' => $city, 'is_subscribed' => false, 'unsubscribe_token' => Str::random(32)]
+        );
 
-        if ($existingSubscription) {
-            // If the email already exists and is subscribed
-            if ($existingSubscription->is_subscribed) {
-                session()->flash('error', 'Email has already been registered.');
-                return back();
-            }
-
-            // If the email exists but is not subscribed, generate a new token
-            $token = Str::random(32);
-            $existingSubscription->unsubscribe_token = $token;
-            $existingSubscription->save();
-        } else {
-            // Create a new subscription
-            $token = Str::random(32);
-            $existingSubscription = Subscription::create([
-                'email' => $email,
-                'city' => $city,
-                'is_subscribed' => false,
-                'unsubscribe_token' => $token
-            ]);
+        if ($subscription->is_subscribed) {
+            return back()->with('error', 'Email has already been registered.');
         }
 
+        // Update token if subscription exists but is not subscribed
+        if (!$subscription->wasRecentlyCreated) {
+            $subscription->update(['unsubscribe_token' => Str::random(32)]);
+        }
+
+        // Generate the verification URL
         $verifyUrl = URL::temporarySignedRoute(
             'verify.subscription',
             now()->addMinutes(60),
-            ['email' => $email, 'token' => $token]
+            ['email' => $email, 'token' => $subscription->unsubscribe_token]
         );
 
-        Mail::send('emails.confirmation', ['url' => $verifyUrl], function ($message) use ($email) {
-            $message->to($email)
-                    ->subject('Confirm your registration.');
-        });
+        // Dispatch email job
+        Mail::to($email)->send(new \App\Mail\SubscriptionConfirmation($verifyUrl));
 
-        // Save confirmation message into session
-        session()->flash('message', 'Please check your email to confirm registration.');
-
-        // Redirect back to the form
-        return back();
+        return back()->with('message', 'Please check your email to confirm registration.');
     }
 
     public function unsubscribe($token)
     {
-        $subscription = Subscription::where('unsubscribe_token', $token)->first();
+        $subscription = Subscription::where('unsubscribe_token', $token)->firstOrFail();
+        $subscription->update(['is_subscribed' => false]);
 
-        if ($subscription) {
-            $subscription->is_subscribed = false;
-            $subscription->save();
-            session()->flash('message', 'You have successfully unsubscribed.');
-            return back();
-        }
-
-        session()->flash('error', 'The unsubscribe link is not valid.');
-        return back();
+        return back()->with('message', 'You have successfully unsubscribed.');
     }
 
     public function verifySubscription(Request $request, $email, $token)
@@ -90,20 +68,15 @@ class SubscriptionController extends Controller
             abort(401);
         }
 
-        $subscription = Subscription::where('email', $email)->first();
+        $subscription = Subscription::where('email', $email)
+                                    ->where('unsubscribe_token', $token)
+                                    ->firstOrFail();
 
-        if ($subscription) {
-            $subscription->is_subscribed = true;
-            $subscription->save();
+        $subscription->update(['is_subscribed' => true]);
 
-            // Dispatch job to send email
-            SendDailyWeatherEmail::dispatch($subscription);
-        }
+        // Dispatch job to send email
+        SendDailyWeatherEmail::dispatch($subscription);
 
-        session()->flash('message', 'Xác nhận đăng ký thành công.');
-
-        // Redirect to index route
-        return redirect()->route('weather.index');
+        return redirect()->route('weather.index')->with('message', 'Subscription confirmed successfully.');
     }
 }
-

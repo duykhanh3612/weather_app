@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-       
-            Schema::create('weather_histories', function (Blueprint $table) {
-                $table->id();
-                $table->string('city');
-                $table->json('weather_data');
-                $table->timestamps();
-            });
-       
+        Schema::create('weather_histories', function (Blueprint $table) {
+            $table->id();
+            $table->string('city');
+            $table->json('weather_data');
+            $table->timestamps();
+            
+            // Adding unique constraint on city and created_at
+            $table->unique(['city', 'created_at']);
+        });
     }
 
     /**

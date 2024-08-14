@@ -19,7 +19,8 @@ Route::get('/weather/history', [WeatherController::class, 'history'])->name('wea
 Route::post('/weather/location', [WeatherController::class, 'getWeatherByLocation'])->name('weather.location');
 
 // Store temporary weather route
-Route::post('/weather/temporary', [WeatherController::class, 'storeTemporaryWeather'])->name('weather.temporary');
+Route::post('/weather/store-temporary', [WeatherController::class, 'storeTemporaryWeather'])->name('weather.storeTemporaryWeather');
+
 
 // Subscription routes
 Route::post('subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');

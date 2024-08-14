@@ -24,9 +24,6 @@ class WeatherService
             $params['q'] = $city;
         } elseif ($latitude && $longitude) {
             $params['q'] = "{$latitude},{$longitude}";
-        } else {
-            // Default location
-            $params['q'] = 'London';
         }
 
         $response = Http::get('http://api.weatherapi.com/v1/forecast.json', $params);
