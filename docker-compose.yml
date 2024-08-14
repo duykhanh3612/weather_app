@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=production
+      - APP_KEY=base64:EKxQipNppC6tGgHA1hECyu76wry2aeXPtSk3xsfQ6lY=
+      - APP_URL=https://your-app-url.onrender.com
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=weather_forecast
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+      - WEATHER_API_KEY=092f6d9dbdb4432880591336241308
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_USERNAME=khanhdz3612@gmail.com
+      - MAIL_PASSWORD='bast sasj tnlx whrq'
+      - MAIL_ENCRYPTION=tls
+      - MAIL_FROM_ADDRESS=khanhdz3612@gmail.com
+      - MAIL_FROM_NAME=Laravel
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=null
+      - REDIS_PORT=6379
+      - PUSHER_APP_ID=
+      - PUSHER_APP_KEY=
+      - PUSHER_APP_SECRET=
+      - PUSHER_HOST=
+      - PUSHER_PORT=443
+      - PUSHER_SCHEME=https
+      - PUSHER_APP_CLUSTER=mt1
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD=root
+      MYSQL_DATABASE=weather_forecast
+      MYSQL_USER=root
+      MYSQL_PASSWORD=
+
+  redis:
+    image: redis:alpine
+
+  queue:
+    image: php:8.2-cli
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3"]
+
+volumes:
+  db_data:
