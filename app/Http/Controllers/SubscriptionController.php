@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Services\WeatherService;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
-use App\Jobs\SendDailyWeatherEmail;
 
 class SubscriptionController extends Controller
 {
@@ -81,20 +80,29 @@ class SubscriptionController extends Controller
     }
 
     public function verifySubscription(Request $request, $email, $token)
-    {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
-
-        $subscription = Subscription::where('email', $email)
-                                    ->where('unsubscribe_token', $token)
-                                    ->firstOrFail();
-
-        $subscription->update(['is_subscribed' => true]);
-
-        // Dispatch job to send email
-        SendDailyWeatherEmail::dispatch($subscription);
-
-        return redirect()->route('weather.index')->with('message', 'Subscription confirmed successfully.');
+{
+    if (!$request->hasValidSignature()) {
+        abort(401);
     }
+
+    $subscription = Subscription::where('email', $email)
+                                ->where('unsubscribe_token', $token)
+                                ->firstOrFail();
+
+    // Update subscription status
+    $subscription->update(['is_subscribed' => true]);
+
+    // Prepare to send daily weather email
+    $weatherService = app(WeatherService::class);
+    $weather = $weatherService->getWeather($subscription->city);
+
+    // Send the daily weather email immediately
+    Mail::raw('Here is the daily weather report for your city: ' . $weather, function ($message) use ($subscription) {
+        $message->to($subscription->email)
+                ->subject('Dự báo thời tiết hàng ngày');
+    });
+
+    return redirect()->route('weather.index')->with('message', 'Subscription confirmed and daily weather email sent successfully.');
+}
+
 }
