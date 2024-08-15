@@ -1,5 +1,5 @@
 # Weather App
-
+ 
 This is a Laravel-based weather application that retrieves and displays weather data from WeatherAPI. The app allows users to search for current weather conditions by city name or use their current location, save weather history, and subscribe to weather updates.
 
 ## Features
@@ -16,16 +16,20 @@ This is a Laravel-based weather application that retrieves and displays weather 
 - Laravel 10
 - Docker (optional)
 
+## Demo
+
+https://weather-app-xtot.onrender.com/
+
 ## Installation
 
 1. **Clone the repository**
-
+2. 
     ```bash
     git clone https://github.com/duykhanh3612/weather_app.git
     cd weather_app
     ```
 
-2. **Set up environment variables**
+3. **Set up environment variables**
 
     Copy the `.env.example` file to `.env`:
 
@@ -61,7 +65,7 @@ This is a Laravel-based weather application that retrieves and displays weather 
     MAIL_FROM_NAME="${Weather-app}"
     ```
 
-3. **Install dependencies**
+4. **Install dependencies**
 
     Run the following command to install PHP dependencies:
 
@@ -69,7 +73,7 @@ This is a Laravel-based weather application that retrieves and displays weather 
     composer install
     ```
 
-4. **Generate application key**
+5. **Generate application key**
 
     Generate the application key using the following command:
 
@@ -77,7 +81,7 @@ This is a Laravel-based weather application that retrieves and displays weather 
     php artisan key:generate
     ```
 
-5. **Run database migrations**
+6. **Run database migrations**
 
     Set up the database by running migrations:
 
@@ -85,7 +89,7 @@ This is a Laravel-based weather application that retrieves and displays weather 
     php artisan migrate
     ```
 
-6. **Serve the application**
+7. **Serve the application**
 
     Start the Laravel development server:
 
