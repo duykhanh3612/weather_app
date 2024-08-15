@@ -36,7 +36,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | When your application is in debug mode, detailed error messages with
-    | stack traces will be shown on every error that occurs within your
+    | stack traces are shown on every error that occurs within your
     | application. If disabled, a simple generic error page is shown.
     |
     */
@@ -54,9 +54,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://localhost'),
 
-    'asset_url' => env('ASSET_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +77,7 @@ return [
     |
     | The application locale determines the default locale that will be used
     | by the translation service provider. You are free to set this value
-    | to any of the locales which will be supported by the application.
+    | to any of the locales which will be supported by your application.
     |
     */
 
@@ -104,7 +103,7 @@ return [
     |
     | This locale will be used by the Faker PHP library when generating fake
     | data for your database seeds. For example, this will be used to get
-    | localized telephone numbers, street address information and more.
+    | localized telephone numbers, street address information, and more.
     |
     */
 
@@ -116,7 +115,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This key is used by the Illuminate encrypter service and should be set
-    | to a random, 32 character string, otherwise these encrypted strings
+    | to a random, 32-character string, otherwise, these encrypted strings
     | will not be safe. Please do this before deploying an application!
     |
     */
