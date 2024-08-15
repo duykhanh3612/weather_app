@@ -13,5 +13,3 @@ php artisan route:cache
 echo "Running migrations..."
 php artisan migrate --force 
 
-echo "Starting queue worker..."
-php artisan queue:work --sleep=3 --tries=3 --daemon --working-dir=/var/www/html
