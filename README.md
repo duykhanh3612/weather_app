@@ -1,70 +1,103 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Weather App
+ 
+This is a Laravel-based weather application that retrieves and displays weather data from WeatherAPI. The app allows users to search for current weather conditions by city name or use their current location, save weather history, and subscribe to weather updates.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Features
 
-## About Laravel
+- Search for weather by city or use the current location.
+- Display current weather and 4-day forecast.
+- Save and display weather history.
+- Subscribe to weather updates via email.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requirements
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.1 or 8.2
+- Composer
+- Laravel 10
+- Docker (optional)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Demo
 
-## Learning Laravel
+https://weather-app-xtot.onrender.com/
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Installation
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. **Clone the repository**
+2. 
+    ```bash
+    git clone https://github.com/duykhanh3612/weather_app.git
+    cd weather_app
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Set up environment variables**
 
-## Laravel Sponsors
+    Copy the `.env.example` file to `.env`:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    ```bash
+    cp .env.example .env
+    ```
 
-### Premium Partners
+    Update the `.env` file with your database credentials, WeatherAPI key, and other necessary configurations:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    ```dotenv
+    APP_NAME=Laravel
+    APP_ENV=local
+    APP_KEY=base64:your_app_key_here
+    APP_DEBUG=true
+    APP_URL=http://localhost
+    PORT=9000
 
-## Contributing
+    DB_CONNECTION=mysql
+    DB_HOST=lim.h.filess.io
+    DB_PORT=3307
+    DB_DATABASE=weatherforecast_southsmile
+    DB_USERNAME=weatherforecast_southsmile
+    DB_PASSWORD=db00118637c7ffbc15f8e2003b3eca411b966558
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    WEATHER_API_KEY=your_weatherapi_key_here
 
-## Code of Conduct
+    MAIL_MAILER=smtp
+    MAIL_HOST=smtp.gmail.com
+    MAIL_PORT=587
+    MAIL_USERNAME=your_email@gmail.com
+    MAIL_PASSWORD=your_email_password
+    MAIL_FROM_ADDRESS=your_email@gmail.com
+    MAIL_FROM_NAME="${Weather-app}"
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. **Install dependencies**
 
-## Security Vulnerabilities
+    Run the following command to install PHP dependencies:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    ```bash
+    composer install
+    ```
 
-## License
+5. **Generate application key**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# weather-app
->>>>>>> 17c596e3d20ca85bf9267430eae8cc619224e029
+    Generate the application key using the following command:
+
+    ```bash
+    php artisan key:generate
+    ```
+
+6. **Run database migrations**
+
+    Set up the database by running migrations:
+
+    ```bash
+    php artisan migrate
+    ```
+
+7. **Serve the application**
+
+    Start the Laravel development server:
+
+    ```bash
+    php artisan serve
+    ```
+
+    Visit `[http://127.0.0.1:8000]` in your browser to access the application.
+
+## Thanks for watching
+
