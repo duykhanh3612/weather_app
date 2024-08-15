@@ -1,8 +1,7 @@
 FROM richarvey/nginx-php-fpm:latest
 
-# Sao chép mã nguồn vào container
-COPY . /var/www/html
-RUN chmod +x /start.sh
+COPY . .
+
 # Image config
 ENV SKIP_COMPOSER 1
 ENV WEBROOT /var/www/html/public
