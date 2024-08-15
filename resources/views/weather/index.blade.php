@@ -108,6 +108,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const forecastContainer = document.getElementById('forecast-container');
+    if (forecastContainer) {
         const forecastDays = Array.from(forecastContainer.children);
         let currentIndex = 0;
         const itemsPerPage = 4;
@@ -132,48 +133,51 @@
 
         // Use Current Location Button Functionality
         document.getElementById('location-button').addEventListener('click', function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            console.log('Latitude:', position.coords.latitude);
-            console.log('Longitude:', position.coords.longitude);
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                console.log('Latitude:', position.coords.latitude);
+                console.log('Longitude:', position.coords.longitude);
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
 
-                    // Create hidden input fields for latitude and longitude
-                    let form = document.getElementById('search-form');
-                    let latInput = document.createElement('input');
-                    let lonInput = document.createElement('input');
-                    latInput.type = 'hidden';
-                    lonInput.type = 'hidden';
-                    latInput.name = 'latitude';
-                    lonInput.name = 'longitude';
-                    latInput.value = latitude;
-                    lonInput.value = longitude;
-                    form.appendChild(latInput);
-                    form.appendChild(lonInput);
+                        // Create hidden input fields for latitude and longitude
+                        let form = document.getElementById('search-form');
+                        let latInput = document.createElement('input');
+                        let lonInput = document.createElement('input');
+                        latInput.type = 'hidden';
+                        lonInput.type = 'hidden';
+                        latInput.name = 'latitude';
+                        lonInput.name = 'longitude';
+                        latInput.value = latitude;
+                        lonInput.value = longitude;
+                        form.appendChild(latInput);
+                        form.appendChild(lonInput);
 
-                    form.submit(); // Submit the form with latitude and longitude
-                }, function(error) {
-                    console.error('Error getting location:', error);
-                    alert('Unable to retrieve your location.');
-                });
-            } else {
-                alert('Geolocation is not supported by this browser.');
+                        form.submit(); // Submit the form with latitude and longitude
+                    }, function(error) {
+                        console.error('Error getting location:', error);
+                        alert('Unable to retrieve your location.');
+                    });
+                } else {
+                    alert('Geolocation is not supported by this browser.');
+                }
+            });
+
+            // Display flash messages if any
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            if (successMessage) {
+                setTimeout(() => successMessage.remove(), 5000); // Remove message after 5 seconds
             }
+
+            if (errorMessage) {
+                setTimeout(() => errorMessage.remove(), 5000); // Remove message after 5 seconds
+            }
+        } else {
+        console.error('Phần tử với ID "forecast-container" không tồn tại.');
+    }
         });
-
-        // Display flash messages if any
-        const successMessage = document.getElementById('success-message');
-        const errorMessage = document.getElementById('error-message');
-        
-        if (successMessage) {
-            setTimeout(() => successMessage.remove(), 5000); // Remove message after 5 seconds
-        }
-
-        if (errorMessage) {
-            setTimeout(() => errorMessage.remove(), 5000); // Remove message after 5 seconds
-        }
-    });
 </script>
 @endsection
 

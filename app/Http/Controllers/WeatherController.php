@@ -16,7 +16,15 @@ class WeatherController extends Controller
 
     public function index()
     {
-        return view('weather.index');
+        $weather = session('temporary_weather_data');
+
+    // Nếu chưa có dữ liệu trong session, lấy dữ liệu cho London
+    if (!$weather) {
+        $weather = $this->weatherService->getWeather('London');
+        session()->put('temporary_weather_data', $weather);
+    }
+
+    return view('weather.index', compact('weather'));
     }
     
     public function search(Request $request)
@@ -47,7 +55,8 @@ class WeatherController extends Controller
         $formattedHistory = $history->map(function($entry) {
             $weatherData = json_decode($entry->weather_data, true);
             $currentWeather = $weatherData['current'] ?? [];
-            $a =[
+            
+            return [
                 'city' => $entry->city,
                 'date' => $entry->created_at->format('Y-m-d'),
                 'temperature' => $currentWeather['temp_c'] ?? 'N/A',
@@ -56,7 +65,6 @@ class WeatherController extends Controller
                 'humidity' => $currentWeather['humidity'] ?? 'N/A',
                 'icon' => $currentWeather['condition']['icon'] ?? null
             ];
-            return $a;
         });
     
         return view('weather.history', ['history' => $formattedHistory]);
