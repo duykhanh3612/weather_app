@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\SendDailyWeatherEmail;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -22,7 +23,7 @@ class Kernel extends ConsoleKernel
             foreach ($subscriptions as $subscription) {
                 SendDailyWeatherEmail::dispatch($subscription);
             }
-        })->everyDay(); // Thiết lập chạy mỗi ngày
+        })->daily(); // Thiết lập chạy mỗi ngày
     }
 
     /**
