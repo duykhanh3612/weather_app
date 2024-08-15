@@ -74,7 +74,7 @@
                     @if(isset($weather['forecast']['forecastday']) && is_array($weather['forecast']['forecastday']))
                         <div class="forecast">
                             <h4>4-Day Forecast</h4>
-                            <div id="forecast-container" class="forecastcontainer">
+                            <div id="forecast-container" class="forecast-container">
                                 @foreach($weather['forecast']['forecastday'] as $index => $day)
                                     <div class="forecast-day" data-index="{{ $index + 1 }}">
                                         @php

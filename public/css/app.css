@@ -138,7 +138,7 @@ width: 100%;
     margin-left: 20px;
 }
 
-.forecastcontainer {
+.forecast-container {
     display: flex;
     justify-content: space-around;
     width: 100%;
@@ -240,7 +240,7 @@ width: 100%;
         margin-top: 10px;
     }
 
-    .forecastcontainer {
+    .forecast-container {
         flex-direction: column; /* Stack forecast items vertically */
         align-items: center;
     }
@@ -281,7 +281,7 @@ width: 100%;
         flex-direction: row; /* Keep elements side by side */
     }
 
-    .forecastcontainer {
+    .forecast-container {
         flex-wrap: wrap; /* Allow wrapping of forecast items */
         justify-content: space-between;
     }
@@ -313,7 +313,7 @@ width: 100%;
         flex-direction: row; /* Keep elements side by side */
     }
 
-    .forecastcontainer {
+    .forecast-container {
         flex-wrap: nowrap; /* Prevent wrapping of forecast items */
     }
 
