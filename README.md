@@ -20,6 +20,12 @@ This is a Laravel-based weather application that retrieves and displays weather 
 
 https://weather-app-xtot.onrender.com/
 
+Render spins down a Free web service that goes 15 minutes without receiving inbound traffic. Render spins the service back up whenever it next receives a request to process.
+
+Spinning up a service takes up to a minute, which causes a noticeable delay for incoming requests until the service is back up and running. For example, a browser page load will hang temporarily.
+
+Please wait for the first launch of the website!
+
 ## Installation
 
 1. **Clone the repository**
