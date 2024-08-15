@@ -11,3 +11,5 @@ php artisan route:cache
 echo "Running migrations..."
 php artisan migrate --force 
 
+echo "Running queue:work..."
+ php artisan queue:work 
