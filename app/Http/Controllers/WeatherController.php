@@ -47,8 +47,7 @@ class WeatherController extends Controller
         $formattedHistory = $history->map(function($entry) {
             $weatherData = json_decode($entry->weather_data, true);
             $currentWeather = $weatherData['current'] ?? [];
-            
-            return [
+            $a =[
                 'city' => $entry->city,
                 'date' => $entry->created_at->format('Y-m-d'),
                 'temperature' => $currentWeather['temp_c'] ?? 'N/A',
@@ -57,6 +56,7 @@ class WeatherController extends Controller
                 'humidity' => $currentWeather['humidity'] ?? 'N/A',
                 'icon' => $currentWeather['condition']['icon'] ?? null
             ];
+            return $a;
         });
     
         return view('weather.history', ['history' => $formattedHistory]);

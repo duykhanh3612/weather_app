@@ -1,38 +1,4 @@
 @extends('layouts.app')
-
-@section('content')
-<div class="dashboard">
-    <h1 class="dashboard-title">Weather History</h1>
-    <div class="weather-history">
-        <!-- Back to Dashboard Button -->
-        <div class="back-button-container">
-            <a href="{{ route('weather.index') }}" class="back-button">Back to Dashboard</a>
-        </div>
-
-        @if($history->isEmpty())
-            <p>No weather history available for today.</p>
-        @else
-            @foreach($history as $entry)
-                <div class="weather-entry">
-                    <h3>{{ $entry['city'] }}</h3>
-                    <p>Date: {{ $entry['date'] }}</p>
-
-                    <div class="current-weather">
-                        <p>Temperature: {{ $entry['temperature'] }}°C</p>
-                        <p>Condition: {{ $entry['condition'] }}</p>
-                        @if($entry['icon'])
-                            <img src="https:{{ $entry['icon'] }}" alt="Weather Icon" class="weather-image">
-                        @endif
-                        <p>Wind Speed: {{ $entry['wind_speed'] }} kph</p>
-                        <p>Humidity: {{ $entry['humidity'] }}%</p>
-                    </div>
-                </div>
-            @endforeach
-        @endif
-    </div>
-</div>
-@endsection
-
 <style>
 .weather-history {
     display: flex;
@@ -65,10 +31,10 @@
     color: #555;
 }
 
-.weather-image {
-    width: 80px; /* Increased size for better visibility */
-    height: 80px; /* Increased size for better visibility */
-    vertical-align: middle;
+.weather-images {
+    width: 100px; /* Increased size for better visibility */
+    height: 100px; /* Increased size for better visibility */
+ 
 }
 
 .back-button-container {
@@ -116,3 +82,37 @@
 
 
 </style>
+@section('content')
+<div class="dashboard">
+    <h1 class="dashboard-title">Weather History</h1>
+    <div class="weather-history">
+        <!-- Back to Dashboard Button -->
+        <div class="back-button-container">
+            <a href="{{ route('weather.index') }}" class="back-button">Back to Dashboard</a>
+        </div>
+
+        @if($history->isEmpty())
+            <p>No weather history available for today.</p>
+        @else
+            @foreach($history as $entry)
+                <div class="weather-entry">
+                    <h3>{{ $entry['city'] }}</h3>
+                    <p>Date: {{ $entry['date'] }}</p>
+
+                    <div class="current-weather">
+                        <p>Temperature: {{ $entry['temperature'] }}°C</p>
+                        <p>Condition: {{ $entry['condition'] }}</p>
+                       
+                        <p>Wind Speed: {{ $entry['wind_speed'] }} kph</p>
+                        <p>Humidity: {{ $entry['humidity'] }}%</p>
+                        @if($entry['icon'])
+                            <img src="https:{{ $entry['icon'] }}" alt="Weather Icon" class="weather-images">
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        @endif
+    </div>
+</div>
+@endsection
+
