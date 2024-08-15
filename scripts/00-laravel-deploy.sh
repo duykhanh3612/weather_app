@@ -2,6 +2,9 @@
 echo "Running composer"
 composer install --no-dev --working-dir=/var/www/html
 
+
+php artisan queue:work --daemon --working-dir=/var/www/html &
+
 echo "Caching config..."
 php artisan config:cache
 
@@ -11,5 +14,3 @@ php artisan route:cache
 echo "Running migrations..."
 php artisan migrate --force 
 
-echo "Running queue:work..."
- php artisan queue:work 
